@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <remote name="zob-local" fetch="/home/bernd/git/waydroid/" />
+
+  <project path="hardware/gps" name="hardware_gps" remote="zob-local" />
+
+</manifest>
