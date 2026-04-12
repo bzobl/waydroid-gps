@@ -69,3 +69,78 @@ Follow the instructions on
   `make systemimage -j$(nproc --all)`
 - Build the vendor image
   `make vendorimage -j$(nproc --all)`
+
+#### Changes
+
+- add gps HAL as repo
+- modify device/waydroid/waydroid
+
+```
+diff --git a/BoardConfig.mk b/BoardConfig.mk
+index 9f7565c..cbb7acc 100644
+--- a/BoardConfig.mk
++++ b/BoardConfig.mk
+@@ -50,6 +50,9 @@ endif
+ TARGET_USERIMAGES_USE_F2FS := true
+ TARGET_USERIMAGES_USE_EXT4 := true
+
++# GPS
++BOARD_HAS_GPS := true
++
+ # HIDL
+ DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/manifest.xml
+
+diff --git a/device.mk b/device.mk
+index 7c17ece..bd3ff66 100644
+--- a/device.mk
++++ b/device.mk
+@@ -246,3 +246,8 @@ endif
+ # Updater
+ PRODUCT_PACKAGES += \
+     WaydroidUpdater
++
++# GPS
++PRODUCT_PACKAGES += \
++    android.hardware.gnss@1.0-impl \
++    android.hardware.gnss@1.0-service
+diff --git a/manifest.xml b/manifest.xml
+index 77d4ef4..cdc9873 100644
+--- a/manifest.xml
++++ b/manifest.xml
+@@ -193,4 +193,13 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+             <instance>default</instance>
+         </interface>
+     </hal>
++    <hal format="hidl">
++        <name>android.hardware.gnss</name>
++        <transport>hwbinder</transport>
++        <version>1.0</version>
++        <interface>
++            <name>IGnss</name>
++            <instance>default</instance>
++        </interface>
++    </hal>
+ </manifest>
+diff --git a/system.prop b/system.prop
+index de8cf1d..8cf5d0e 100644
+--- a/system.prop
++++ b/system.prop
+@@ -34,3 +34,7 @@ ro.lmk.downgrade_pressure=100
+ ro.lmk.kill_heaviest_task=true
+ ro.lmk.kill_timeout_ms=100
+ ro.lmk.use_minfree_levels=true
++
++# GPS
++ro.kernel.android.gps=ttyGPSD
++ro.kernel.android.gpsttybaud=115200
+```
+
+## Use waydroid
+
+- Install waydroid
+- Copy system.img and vendor.img to `/etc/waydroid-extra/images/`
+- run `waydroid init -f`
+- add the following line to `/var/lib/waydroid/lxc/waydroid/config_nodes`
+  ```
+  lxc.mount.entry = /dev/ttyGPSD dev/ttyGPSD none bind,create=file,optional 0 0
+  ```
