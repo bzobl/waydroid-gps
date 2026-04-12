@@ -144,3 +144,4 @@ index de8cf1d..8cf5d0e 100644
   ```
   lxc.mount.entry = /dev/ttyGPSD dev/ttyGPSD none bind,create=file,optional 0 0
   ```
+- See <https://github.com/bzobl/gpsdtty> how to provide `/dev/ttyGPSD`.
