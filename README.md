@@ -14,6 +14,7 @@ addition install
 - meson
 - glslang-tools (unsure whether we need libglvnd-dev)
 - python3-mako
+- python3-pycparser
 - python3-yaml
 
 ### Setup ccache
