@@ -64,7 +64,7 @@ Follow the instructions on
   a second time)
   `. build/envsetup.sh`
 - Prepare for the image you want to build
-  `lunch lineage_waydroid_arm64-userdebug`
+  `lunch lineage_waydroid_x86_64-userdebug`
 - Build the system image
   `make systemimage -j$(nproc --all)`
 - Build the vendor image
@@ -74,6 +74,9 @@ Follow the instructions on
 
 - add gps HAL as repo
 - modify device/waydroid/waydroid
+
+**TODO:** The following patch currently has to be applied manually, add
+a script for that.
 
 ```
 diff --git a/BoardConfig.mk b/BoardConfig.mk
