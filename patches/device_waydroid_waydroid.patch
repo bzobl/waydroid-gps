@@ -1,0 +1,42 @@
+diff --git a/BoardConfig.mk b/BoardConfig.mk
+index 9f7565c..385c37d 100644
+--- a/BoardConfig.mk
++++ b/BoardConfig.mk
+@@ -50,6 +50,10 @@ endif
+ TARGET_USERIMAGES_USE_F2FS := true
+ TARGET_USERIMAGES_USE_EXT4 := true
+
++# GPS
++BOARD_HAS_GPS := true
++BOARD_SEPOLICY_DIRS += platform/external/gpsd/android/sepolicy
++
+ # HIDL
+ DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/manifest.xml
+
+diff --git a/device.mk b/device.mk
+index 7c17ece..755c874 100644
+--- a/device.mk
++++ b/device.mk
+@@ -246,3 +246,9 @@ endif
+ # Updater
+ PRODUCT_PACKAGES += \
+     WaydroidUpdater
++
++# GPS
++PRODUCT_PACKAGES += \
++        android.hardware.gnss@1.1 \
++        android.hardware.gnss@1.1-impl \
++        android.hardware.gnss@1.1-service.gpsd
+diff --git a/system.prop b/system.prop
+index de8cf1d..2e6f439 100644
+--- a/system.prop
++++ b/system.prop
+@@ -34,3 +34,8 @@ ro.lmk.downgrade_pressure=100
+ ro.lmk.kill_heaviest_task=true
+ ro.lmk.kill_timeout_ms=100
+ ro.lmk.use_minfree_levels=true
++
++# GPS
++service.gpsd.automotive=true
++service.gpsd.host=192.168.240.1
++#service.gpsd.port=2947
